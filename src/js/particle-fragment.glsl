@@ -60,8 +60,6 @@ void main() {
   //   gl_FragColor = vec4(shade, shade, shade, 1.0);
   } else if (v_size > 2.0) {
     drawBlurred(dist);
-  // } else if (v_size < 1.0) {
-  //   drawAtmosphere(dist);
   } else {
     drawSpeck(dist);
   }

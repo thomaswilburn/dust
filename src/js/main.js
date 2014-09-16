@@ -10,6 +10,8 @@ require([
   var jitter = .05;
   
   var canvas = document.querySelector("canvas[dust]");
+  canvas.width = canvas.offsetWidth;
+  canvas.height = canvas.offsetHeight;
   
   try {
     document.createElement("canvas").getContext("webgl");
@@ -29,7 +31,7 @@ require([
   var spawn = function() {
     return {
       x: (canvas.width * .1) + (Math.random() * canvas.width * .8),
-      y: canvas.height - (300 * Math.random())
+      y: canvas.height - (30 * Math.random())
     };
   };
   
@@ -66,9 +68,10 @@ require([
       rate: 10,
       particles: [],
       make: function() {
+        var scale = 1.5;
         var options = spawn();
-        options.size = Math.random() * 1.5;
-        options.dx = options.size / 1.5;
+        options.size = Math.random() * scale;
+        options.dx = options.size / scale;
         options.dy = Math.random() * speed - (speed / 2) * .4;
         return new Mote(options);
       }
