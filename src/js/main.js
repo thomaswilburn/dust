@@ -15,7 +15,7 @@ require([
   canvas.height = canvas.offsetHeight;
   
   try {
-    throw("force 2d");
+    //throw("force 2d");
     document.createElement("canvas").getContext("webgl");
     renderer = new RendererGL(canvas);
     count = 6000;
