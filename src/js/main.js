@@ -1,9 +1,10 @@
 require([
   "mote",
-  "render-gl"
-], function(Mote, RendererGL) {
+  "render-gl",
+  "render-2d"
+], function(Mote, RendererGL, Renderer2D) {
   
-  var count = 1000;
+  var count = 1500;
   var batchSize = 10;
   var renderer;
   var speed = 2;
@@ -14,14 +15,15 @@ require([
   canvas.height = canvas.offsetHeight;
   
   try {
+    throw("force 2d");
     document.createElement("canvas").getContext("webgl");
     renderer = new RendererGL(canvas);
-    count = 3000;
+    count = 6000;
     //set the GL renderer
   } catch (_) {
     console.log("WebGL unavailable, using 2D context");
     //set the 2D renderer
-    //renderer = new Renderer2D(canvas);
+    renderer = new Renderer2D(canvas);
   }
   
   var reaper = function(mote) {
@@ -48,21 +50,6 @@ require([
         return new Mote(options);
       }
     },
-    /*atmosphere: {
-      ratio: .1,
-      rate: 100,
-      particles: [],
-      make: function() {
-        return new Mote({
-          x: Math.random() * canvas.width,
-          y: Math.random() * canvas.height,
-          dx: Math.random() * 3 + 3,
-          dy: Math.random() * .8 - 2,
-          size: .4,
-          age: Math.random() * 100
-        });
-      }
-    },*/
     speck: {
       ratio: .5,
       rate: 10,
@@ -72,7 +59,7 @@ require([
         var options = spawn();
         options.size = Math.random() * scale;
         options.dx = options.size / scale;
-        options.dy = Math.random() * speed - (speed / 2) * .4;
+        options.dy = (Math.random() - .75) * speed * .4;
         return new Mote(options);
       }
     },

@@ -40,10 +40,6 @@ void drawBlurred(float dist) {
   gl_FragColor = vec4(1.0, 1.0, 1.0, alpha * reflect(v_age));
 }
 
-void drawAtmosphere(float dist) {
-  gl_FragColor = vec4(1.0, 1.0, 1.0, 0.2);
-}
-
 void main() {
   /*
   Three kinds of particle types, by size class:
