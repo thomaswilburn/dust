@@ -29,8 +29,8 @@ float reflect(float age) {
 
 void drawSpeck(float dist) {
   //round out the fragment
-  if (dist > 0.5) discard;
-  float shade = reflect(v_age);
+  if (dist > 0.75) discard;
+  float shade = reflect(v_age) * .5;
   gl_FragColor = vec4(1.0, 1.0, 1.0, shade);
 }
 

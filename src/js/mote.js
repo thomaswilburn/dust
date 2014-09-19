@@ -1,7 +1,6 @@
 define(function() {
   
   var speedLimit = .6;
-  var jitter = .1;
   var coinToss = function() { return Math.random() > .5 };
   
   var Mote = function(options) {
@@ -17,10 +16,12 @@ define(function() {
   Mote.prototype = {
     update: function(time) {
       time = time || 1;
+      var jitter = this.dx * .01;
       this.x += (this.dx + (coinToss() ? jitter : -jitter)) * time;
-      this.y += (this.dy + (coinToss() ? jitter : -jitter)) * time;
+      this.y += this.dy * time;
       //add some horizontal variation
-      this.dx += (Math.random() - .5) * .1;
+      this.dx += (Math.random() - .5) * .01;
+      var speedLimit = 1 - this.size / 10;
       if (Math.abs(this.dx) > speedLimit) {
         this.dx *= .5;
       }

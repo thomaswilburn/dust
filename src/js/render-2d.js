@@ -9,16 +9,16 @@ define(function() {
     canvas.height *= .5;
     
     this.context = canvas.getContext("2d");
-    this.gradient = this.context.createRadialGradient(10, 10, 0, 10, 10, 10);
+    this.gradient = this.context.createRadialGradient(10, 10, 5, 10, 10, 10);
     this.gradient.addColorStop(0, gray(255, 0));
-    this.gradient.addColorStop(.8, gray(255, .05));
-    this.gradient.addColorStop(1, gray(255, .1));
+    this.gradient.addColorStop(.8, gray(255, .07));
+    this.gradient.addColorStop(1, gray(255, .15));
   }
   
   var now = null;
   
   Renderer.prototype = {
-    speck: function(mote) {
+    speck: function(mote, i) {
       if (mote.age != now) {
         var mod = (mote.age % 300) / 300 * 2;
         var shade = mod > 1 ? 2 - mod : mod;
@@ -33,12 +33,12 @@ define(function() {
       this.context.fill();
       // this.context.fillRect(mote.x - half, mote.y - half, mote.size, mote.size);
     },
-    orb: function(mote) {
+    orb: function(mote, i) {
       now = null;
       if (this.context.fillStyle != this.gradient) {
         this.context.fillStyle = this.gradient;
       }
-      var half = mote.size / 2;
+      var half = mote.size / 4;
       this.context.translate(mote.x + half, mote.y + half);
       this.context.beginPath();
       this.context.arc(half, half, half, 0, Math.PI * 2);
@@ -61,9 +61,9 @@ define(function() {
       for (var i = 0; i < particleList.length; i++) {
         var mote = particleList[i];
         if (mote.size <= 10) {
-          this.speck(mote);
+          this.speck(mote, i);
         } else {
-          this.orb(mote);
+          this.orb(mote, i);
         }
       }
     }

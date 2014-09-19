@@ -7,7 +7,7 @@ require([
   var count = 1500;
   var batchSize = 10;
   var renderer;
-  var speed = 2;
+  var speed = .2;
   var jitter = .05;
   
   var canvas = document.querySelector("canvas[dust]");
@@ -33,7 +33,7 @@ require([
   var spawn = function() {
     return {
       x: (canvas.width * .1) + (Math.random() * canvas.width * .8),
-      y: canvas.height - (30 * Math.random())
+      y: canvas.height - (100 * Math.random())
     };
   };
   
@@ -41,37 +41,39 @@ require([
     bokeh: {
       ratio: .001,
       rate: 1,
+      chance: .01,
       particles: [],
       make: function() {
         var options = spawn();
         options.size = Math.random() * 8 + 10;
-        options.dx = (Math.random() * speed - speed / 1.4) * .4;
-        options.dy = (Math.random() * speed - speed) * .4;
+        options.dx = (Math.random() - .25) * speed;
+        options.dy = -Math.random() * speed;
         return new Mote(options);
       }
     },
     speck: {
       ratio: .5,
-      rate: 10,
+      rate: 4,
+      chance: 1,
       particles: [],
       make: function() {
-        var scale = 1.5;
         var options = spawn();
-        options.size = Math.random() * scale;
-        options.dx = options.size / scale;
-        options.dy = (Math.random() - .75) * speed * .4;
+        options.size = Math.random();
+        options.dx = (Math.random - .5) * speed * .1;
+        options.dy = -Math.random() * speed;
         return new Mote(options);
       }
     },
     blurred: {
-      ratio: .005,
-      rate: 2,
+      ratio: .001,
+      rate: 10,
+      chance: .01,
       particles: [],
       make: function() {
         var options = spawn();
         options.size = Math.random() * 8;
-        options.dx = options.size / 1.5;
-        options.dy = Math.random() * speed - (speed / 2) * .4;
+        options.dx = options.size / 10 * speed;
+        options.dy = -Math.random() * speed;
         return new Mote(options);
       }
     }
@@ -85,14 +87,16 @@ require([
       var dust = layer.particles;
       if (dust.length < max) {
         for (var i = 0; i < layer.rate; i++) {
-          dust.push(layer.make())
+          if (Math.random() < layer.chance) {
+            dust.push(layer.make())
+          }
         }
       }
       for (var i = 0; i < dust.length; i++) {
         var mote = dust[i];
         mote.update();
         //check for dead or reapable motes, spawn replacements
-        if (mote.x < 0 || mote.y < 0 || mote.x > canvas.width || mote.y > canvas.height) {
+        if (reaper(mote)) {
           dust[i] = layer.make();
         }
         //if (mote.age > Math.random() * 500) dust[i] = makeMote();
