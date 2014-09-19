@@ -11,8 +11,8 @@ require([
   var jitter = .05;
   
   var canvas = document.querySelector("canvas[dust]");
-  canvas.width = canvas.offsetWidth;
-  canvas.height = canvas.offsetHeight;
+  canvas.width = canvas.offsetWidth * .8;
+  canvas.height = canvas.offsetHeight * .8;
   
   try {
     //throw("force 2d");
@@ -60,7 +60,7 @@ require([
         var options = spawn();
         options.size = Math.random();
         options.dx = (Math.random - .5) * speed * .1;
-        options.dy = -Math.random() * speed;
+        options.dy = (Math.random() - .75) * speed;
         return new Mote(options);
       }
     },
